@@ -56,7 +56,8 @@ export default class App extends Component {
           // we want to store our response(result) to our state 
           if (err) console.log(err);
           else {
-            console.log(res);
+            console.log(res[res.length - 1]);
+            this.setState({recognitions: res[res.length - 1]});
           }
         })
       }
@@ -64,6 +65,8 @@ export default class App extends Component {
   }
 
   render() {
+    const {recognitions, source} = this.state;
+
     return (
       <LinearGradient colors={['#dd3e54', '#dd3e09']} style={styles.linaerGradient}>
         <View style={styles.titleContainer}>
@@ -71,7 +74,22 @@ export default class App extends Component {
           <Text style={styles.subtitle}>Seafood Startup</Text>
         </View>
         <View style={styles.outputContainer}>
-          <Image source={require('./assets/hotdog.png')} style={styles.hotdogImage}></Image>
+          { recognitions ? (
+            <View>
+              <Image source={source} style={styles.hotdogImage}></Image>
+              <Text 
+                style={{ 
+                  color: 'white', 
+                  textAlign: 'center', 
+                  paddingTop: 10, 
+                  fontSize: 25
+                  }}>{recognitions['label'] + ' - ' + (recognitions['confidence']*100).toFixed(0) + '%'}</Text>
+            </View>
+            ) : (
+            <Image source={require('./assets/hotdog.png')} style={styles.hotdogImage}></Image>
+            )
+          }
+          
         </View>
         <View style={styles.buttonContainer}>
           <Button 
