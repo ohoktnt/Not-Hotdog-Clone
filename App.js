@@ -64,6 +64,41 @@ export default class App extends Component {
     })
   }
 
+  takeImage() {
+    const options = {}; // a dictionary
+    ImagePicker.launchCamera(options, (response) => {
+      // call back will receive response variable, with the var we want to do some error checking
+      if(response.didCancel) {
+        console.log('User Cancelled Image')
+      } else if (response.error) {
+        console.log('Image Picker Error', response.error)
+      } else if (response.customButton) {
+        console.log('User pressed Custom Button');
+      } else {
+        // now ready to configure TFlite - it is a library that allows us to interact with the neural network
+        // that we are goin got build and make predictions on any store of image
+        this.setState({
+          source: {uri: response.uri} //setting source state variable to equal to users response uri data
+        });
+        // all these params are for preprocessing our image, by thes settings our model m akes predictions faster
+        tflite.runModelOnImage({
+          path: response.path,
+          imageMean: 128,
+          imageStd: 128,
+          numResults: 2,
+          threshold: 0.05,
+        }, (err, res) => {
+          // we want to store our response(result) to our state 
+          if (err) console.log(err);
+          else {
+            console.log(res[res.length - 1]);
+            this.setState({recognitions: res[res.length - 1]});
+          }
+        })
+      }
+    })
+  }
+
   render() {
     const {recognitions, source} = this.state;
 
@@ -102,7 +137,8 @@ export default class App extends Component {
           title="Take a Photo" 
           titleStyle={{fontSize: 20}} 
           containerStyle={{margin: 5}}
-          buttonStyle={styles.button}></Button>
+          buttonStyle={styles.button}
+          onPress={this.takeImage.bind(this)}></Button>
         </View>
       </LinearGradient>
     )
