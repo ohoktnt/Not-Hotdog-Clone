@@ -13,7 +13,7 @@ export default class App extends Component {
           <Text style={styles.subtitle}>Seafood Startup</Text>
         </View>
         <View style={styles.outputContainer}>
-          <Text>Output</Text>
+          <Image source={require('./assets/hotdog.png')} style={styles.hotdogImage}></Image>
         </View>
         <View style={styles.buttonContainer}>
           <Button 
@@ -62,4 +62,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     borderRadius: 8
   },
+  hotdogImage: {
+    height: 250,
+    width: 250
+  }
 })
