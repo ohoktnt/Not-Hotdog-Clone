@@ -6,7 +6,24 @@ import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker'; //version 2.3.0 to allow user to pick path?
 import Tflite from 'tflite-react-native';
 
+
+// THESE 3 VARIABLS WILL ALLOW US TO INTERACT WITH NEURAL NETWORK
+// instantiate our tflite obj inside memory, which allows us to perform methods on that obj
+let tflite = new Tflite();
+// create model file to equal path of where were going to store our model(our file neural network will be called)
+var modelFile = 'models/model.tflite';
+var labelsFile = 'models/labels.txt';
+
 export default class App extends Component {
+
+  constructor(props) {
+    // constructot to hold state variables
+    super(props);
+    this.state = {
+      recognitions: null,
+      source: null,
+    }
+  }
 
   selectGalleryImage() {
     const options = {}; // a dictionary
@@ -21,6 +38,9 @@ export default class App extends Component {
       } else {
         // now ready to configure TFlite - it is a library that allows us to interact with the neural network
         // that we are goin got build and make predictions on any store of image
+        this.setState({
+          source: {uri: response.uri} //setting source state variable to equal to users response uri data
+        })
       }
     })
   }
@@ -40,7 +60,8 @@ export default class App extends Component {
           title="Camera Roll" 
           titleStyle={{fontSize: 20}} 
           containerStyle={{margin: 5}}
-          buttonStyle={styles.button}></Button>
+          buttonStyle={styles.button}
+          onPress={this.selectGalleryImage.bind(this)}></Button>
           <Button 
           title="Take a Photo" 
           titleStyle={{fontSize: 20}} 
