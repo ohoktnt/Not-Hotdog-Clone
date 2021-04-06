@@ -18,6 +18,8 @@ target 'NotHotdog' do
 
   pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
+  pod 'TfliteReactNative', :path => '../node_modules/tflite-react-native'
+
   target 'NotHotdogTests' do
     inherit! :complete
     # Pods for testing

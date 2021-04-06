@@ -3,7 +3,8 @@ import { View, Text, Image, StyleSheet} from 'react-native';
 import { Button } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker' //version 2.3.0 to allow user to pick path?
+import ImagePicker from 'react-native-image-picker'; //version 2.3.0 to allow user to pick path?
+import Tflite from 'tflite-react-native';
 
 export default class App extends Component {
 
@@ -18,7 +19,8 @@ export default class App extends Component {
       } else if (response.customButton) {
         console.log('User pressed Custom Button');
       } else {
-        
+        // now ready to configure TFlite - it is a library that allows us to interact with the neural network
+        // that we are goin got build and make predictions on any store of image
       }
     })
   }
