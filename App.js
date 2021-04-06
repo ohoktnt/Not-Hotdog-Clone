@@ -6,6 +6,23 @@ import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker' //version 2.3.0 to allow user to pick path?
 
 export default class App extends Component {
+
+  selectGalleryImage() {
+    const options = {}; // a dictionary
+    ImagePicker.launchImageLibrary(options, (response) => {
+      // call back will receive response variable, with the var we want to do some error checking
+      if(response.didCancel) {
+        console.log('User Cancelled Image')
+      } else if (response.error) {
+        console.log('Error')
+      } else if (response.customButton) {
+        console.log('User pressed Custom Button');
+      } else {
+        
+      }
+    })
+  }
+
   render() {
     return (
       <LinearGradient colors={['#dd3e54', '#dd3e09']} style={styles.linaerGradient}>
