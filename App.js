@@ -22,7 +22,11 @@ export default class App extends Component {
     this.state = {
       recognitions: null,
       source: null,
-    }
+    };
+    tflite.loadModel({model: modelFile, labels: labelsFile}, (err, res) => {
+      if (err) console.log(err);
+      else console.log(res);
+    });
   }
 
   selectGalleryImage() {
@@ -32,7 +36,7 @@ export default class App extends Component {
       if(response.didCancel) {
         console.log('User Cancelled Image')
       } else if (response.error) {
-        console.log('Error')
+        console.log('Image Picker Error', response.error)
       } else if (response.customButton) {
         console.log('User pressed Custom Button');
       } else {
@@ -40,6 +44,20 @@ export default class App extends Component {
         // that we are goin got build and make predictions on any store of image
         this.setState({
           source: {uri: response.uri} //setting source state variable to equal to users response uri data
+        });
+        // all these params are for preprocessing our image, by thes settings our model m akes predictions faster
+        tflite.runModelOnImage({
+          path: response.path,
+          imageMean: 128,
+          imageStd: 128,
+          numResults: 2,
+          threshold: 0.05,
+        }, (err, res) => {
+          // we want to store our response(result) to our state 
+          if (err) console.log(err);
+          else {
+            console.log(res);
+          }
         })
       }
     })
