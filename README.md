@@ -9,6 +9,8 @@ A mobile android app that can identify if the photo in question is a hot dog. Pi
 ## Technical Specifications
  - JavaScript
  - React-Native
+ - React-Native-Elements
+ - React-Native-Image-Picker
  - TFlite
 
 ## Setup
