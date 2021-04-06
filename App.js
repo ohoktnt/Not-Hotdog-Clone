@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet} from 'react-native';
 import { Button } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
+import ImagePicker from 'react-native-image-picker' //version 2.3.0 to allow user to pick path?
 
 export default class App extends Component {
   render() {
